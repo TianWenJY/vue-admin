@@ -2,14 +2,55 @@
   <div class="main">
     <section>
       <img src="../../images/login/logo.png" alt="">
+        <el-form :model="loginForm" :rules="rules" ref="loginForm">
+          <el-form-item prop="username">
+              <el-input v-model="input" placeholder="请输入用户名"></el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+              <el-input v-model="input" placeholder="请输入密码"></el-input>
+          </el-form-item>
+          <el-form-item>
+              <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登录</el-button>
+          </el-form-item>
+        </el-form>
+      <p class="tip"></p>
+      <p class="tip"></p>
+      <p class="tip"></p>
     </section>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   export default {
-    name: 'Login'
+    name: 'Login',
+    data() {
+      return {
+        loginForm: {
+           username: '',
+          password: '',
+        },
+        rules: {
+          username: [
+            { required: true, message: '请输入用户名', trigger: 'blur' },
+          ],
+          password: [
+            { required: true, message: '请输入密码', trigger: 'blur' }
+          ],
+        },
+        showLogin: false,
+      }
+    },
+    mounted(){
+      this.showLogin=true;
+      if(!this.adminInfo.id) {
+          this.getAdminData()
+      }
+    },
+    computed: {
+
+    }
   }
+
 </script>
 
 <style>

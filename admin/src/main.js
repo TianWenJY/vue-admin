@@ -3,11 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import jQuery from 'jQuery'
+import ElementUI from 'element-ui'
 
 // import  BootStrap from 'bootstrap'
 
 Vue.config.productionTip = false
-
+Vue.use(jQuery)
+Vue.use(ElementUI)
 
 
 /* eslint-disable no-new */
