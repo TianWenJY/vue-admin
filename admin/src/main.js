@@ -4,13 +4,15 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import jQuery from 'jQuery'
-import ElementUI from 'element-ui'
+import ElemnetUi from 'element-ui'
+import ElementCss from 'element-ui/lib/theme-chalk/index.css'
 
 // import  BootStrap from 'bootstrap'
 
 Vue.config.productionTip = false
 Vue.use(jQuery)
-Vue.use(ElementUI)
+Vue.use(ElemnetUi)
+Vue.use(ElementCss)
 
 
 /* eslint-disable no-new */

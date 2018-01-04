@@ -4,13 +4,13 @@
       <img src="../../images/login/logo.png" alt="">
         <el-form :model="loginForm" :rules="rules" ref="loginForm">
           <el-form-item prop="username">
-              <el-input v-model="input" placeholder="请输入用户名"></el-input>
+              <el-input v-model="loginForm.username" placeholder="请输入用户名" ref="username"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-              <el-input v-model="input" placeholder="请输入密码"></el-input>
+              <el-input v-model="loginForm.password" placeholder="请输入密码" ref="password"></el-input>
           </el-form-item>
           <el-form-item>
-              <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登录</el-button>
+              <el-button type="primary"  @click="submitForm()" class="submit_btn">登录</el-button>
           </el-form-item>
         </el-form>
       <p class="tip"></p>
@@ -29,27 +29,38 @@
            username: '',
           password: '',
         },
-        rules: {
-          username: [
-            { required: true, message: '请输入用户名', trigger: 'blur' },
-          ],
-          password: [
-            { required: true, message: '请输入密码', trigger: 'blur' }
-          ],
-        },
         showLogin: false,
       }
     },
-    mounted(){
-      this.showLogin=true;
-      if(!this.adminInfo.id) {
-          this.getAdminData()
-      }
-    },
-    computed: {
+    methods: {
+      submitForm:function() {
+         this.$http.post(
+           'http://api.cheshili.com.cn:8000/Admin/Login/LG',
+          {
 
+                 AdminName: this.loginForm.username,
+                 Password: this.loginForm.password,
+                 Platform: '23',
+                 Mobile: 1,
+           },
+           // {
+           //   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+           // }
+           {emulateJSON: true}
+         ).then((res) => {
+           res = res.body;
+           if(res.Status == 0 && res.Data) {
+             // $$.setToken(res.Data.WToken);
+             sessionStorage.setItem('__UINFO__',res.Data.Info);
+             this.$router.push({ path: '/index'})
+           }
+         }),function (err){
+           console.log(err)
+         }
+       }
     }
   }
+
 
 </script>
 
@@ -81,4 +92,44 @@
        top: 20%;
      }
   }
+  form {
+    width: 220px;
+    height: 240px;
+    position: absolute;
+    top: 40px;
+    right: 15%;
+  }
+  .submit_btn {
+    width: 100%;
+  }
+  .main >section > img {
+    width: 338px;
+    height: 70px;
+    margin-top: 75px;
+    margin-left: -30%;
+  }
+  @media (max-width: 1000px) {
+    div.main > section > img {
+      position: absolute;
+      margin: auto;
+      left: 0;
+      right: 0;
+      top: 10%;
+    }
+  }
+  @media (max-width: 1000px)
+  {
+    div.main > section > form {
+      margin: 0 auto;
+      right: 0;
+      left: 0;
+      top: 40%;
+    }
+  }
+  .el-input__inner {
+    background-image: url("../../images/login/user.png");
+    padding: 0 15px 0 35px;
+    background-repeat: no-repeat;
+  }
+
 </style>
